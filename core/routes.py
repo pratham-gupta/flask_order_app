@@ -39,7 +39,7 @@ def addOrderProduct(order, productids):
         )
 
     # delete existing products for the given order from OrderProduct table before updating/adding new products
-    OrderProduct.query.filter_by(order_id=orderid).delete()
+    # OrderProduct.query.filter_by(order_id=orderid).delete()
     db.session.commit()
 
     for prod in productids:
@@ -48,7 +48,8 @@ def addOrderProduct(order, productids):
         orderproduct = OrderProduct(
             order_id=orderid, product_id=product_id, quantity=quantity
         )
-        db.session.add(orderproduct)
+
+        db.session.merge(orderproduct)
         db.session.commit()
 
     order_products = OrderProduct.query.filter_by(order_id=orderid).all()
@@ -58,6 +59,7 @@ def addOrderProduct(order, productids):
 
     # update total order price for order object
     order.order_total = order_total_price
+
     db.session.commit()
 
     return Response(

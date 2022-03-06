@@ -20,7 +20,7 @@ class OrderProduct(db.Model):
     orderproductid = db.Column(db.Integer, primary_key=True)
     product_id = db.Column(db.Integer, db.ForeignKey("product.id"))
     order_id = db.Column(
-        db.Integer, db.ForeignKey("order.id")
+        db.Integer, db.ForeignKey("order.id"), nullable=False
     )  # foreign key to join Order item to order
     quantity = db.Column(
         db.Integer, nullable=False
